@@ -1,7 +1,17 @@
 import React from "react";
-import { Container, Header, UserWrapper, UserInfo, Photo, User, UserGreeting, UserName, Icon } from "./styles";
-import { Feather } from "@expo/vector-icons";
 import { HighlightCard } from "../../components/HighlightCard";
+import {
+    Container,
+    HighlightCards,
+    Header,
+    Icon,
+    Photo,
+    User,
+    UserGreeting,
+    UserInfo,
+    UserName,
+    UserWrapper,
+} from "./styles";
 
 export function Dashboard() {
     return (
@@ -18,7 +28,11 @@ export function Dashboard() {
                     <Icon name="power"></Icon>
                 </UserWrapper>
             </Header>
-            <HighlightCard></HighlightCard>
+            <HighlightCards >
+                <HighlightCard></HighlightCard>
+                <HighlightCard></HighlightCard>
+                <HighlightCard></HighlightCard>
+            </HighlightCards>
         </Container>
     );
 }
