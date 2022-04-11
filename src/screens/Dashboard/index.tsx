@@ -1,5 +1,6 @@
 import React from "react";
 import { HighlightCard } from "../../components/HighlightCard";
+import { TransactionCard } from "../../components/TransactionCard";
 import {
     Container,
     HighlightCards,
@@ -11,6 +12,8 @@ import {
     UserInfo,
     UserName,
     UserWrapper,
+    Transactions,
+    Title
 } from "./styles";
 
 export function Dashboard() {
@@ -43,6 +46,10 @@ export function Dashboard() {
                 />
                 <HighlightCard type="total" title="Total" amount="R$ 16.141,00" lastTransaction="1 á 6 de abril" />
             </HighlightCards>
+            <Transactions>
+                <Title>Listagem</Title>
+                <TransactionCard></TransactionCard>
+            </Transactions>
         </Container>
     );
 }
