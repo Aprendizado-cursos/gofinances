@@ -1,21 +1,14 @@
 import React from "react";
-import { getBottomSpace } from "react-native-iphone-x-helper";
 import { HighlightCard } from "../../components/HighlightCard";
 import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
 import {
-    Container,
-    HighlightCards,
-    Header,
-    Icon,
-    Photo,
-    User,
+    Container, Header, HighlightCards, Icon,
+    Photo, Title,
+    TransactionList, Transactions, User,
     UserGreeting,
     UserInfo,
     UserName,
-    UserWrapper,
-    Transactions,
-    Title,
-    TransactionList,
+    UserWrapper
 } from "./styles";
 
 export interface DataListProps extends TransactionCardProps {

@@ -1,4 +1,4 @@
-import { Feather } from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
 import styled, { css } from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -32,17 +32,17 @@ export const Icon = styled(Feather)<TypeProps>`
             type === "up" &&
             css`
                 color: ${({ theme }) => theme.colors.success};
-            `}
-        ${({ type }) =>
-            type === "down" &&
-            css`
-                color: ${({ theme }) => theme.colors.attention};
-            `}
-        ${({ type }) =>
-            type === "total" &&
-            css`
-                color: ${({ theme }) => theme.colors.shape};
             `};
+    ${({ type }) =>
+        type === "down" &&
+        css`
+            color: ${({ theme }) => theme.colors.attention};
+        `};
+    ${({ type }) =>
+        type === "total" &&
+        css`
+            color: ${({ theme }) => theme.colors.shape};
+        `};
 `;
 
 export const Footer = styled.View``;
