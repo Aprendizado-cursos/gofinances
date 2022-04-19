@@ -12,11 +12,15 @@ interface Category {
 
 interface CategorySelectProps {
     category: Category;
-    setCategory: (name: string) => void;
+    setCategory: (category: Category) => void;
     closeSelectCategory: () => void;
 }
 
 export function CategorySelect({ category, setCategory, closeSelectCategory }: CategorySelectProps) {
+    function handleCategorySelect(item: Category) {
+        setCategory(item);
+    }
+
     return (
         <Container>
             <Header>
@@ -28,14 +32,14 @@ export function CategorySelect({ category, setCategory, closeSelectCategory }: C
                 keyExtractor={(item) => item.key}
                 ItemSeparatorComponent={() => <Separator />}
                 renderItem={({ item }) => (
-                    <Category>
+                    <Category onPress={() => handleCategorySelect(item)} isActive={item.key === category.key}>
                         <Icon name={item.icon}></Icon>
                         <Name>{item.name}</Name>
                     </Category>
                 )}
             />
             <Footer>
-                <Button title="Selecionar" />
+                <Button title="Selecionar" onPress={closeSelectCategory} />
             </Footer>
         </Container>
     );
