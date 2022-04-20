@@ -1,15 +1,16 @@
 import React from "react";
-import { Control, Controller, FieldPath } from "react-hook-form";
+import { Control, Controller, FieldPath, FieldError } from "react-hook-form";
 import { TextInputProps } from "react-native";
 import { Input } from "../Input/index";
-import { Container } from "./styles";
+import { Container, Error } from "./styles";
 
 interface InputProps<T> extends TextInputProps {
     control: Control<T>;
     name: FieldPath<T>;
+    error?: FieldError;
 }
 
-export function InputForm<T>({ control, name, ...rest }: InputProps<T>) {
+export function InputForm<T>({ control, name, error, ...rest }: InputProps<T>) {
     return (
         <Container>
             <Controller
@@ -19,6 +20,7 @@ export function InputForm<T>({ control, name, ...rest }: InputProps<T>) {
                 )}
                 name={name}
             />
+            {error && <Error>{error.message}</Error>}
         </Container>
     );
 }
