@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Modal } from "react-native";
 import { Button } from "../../components/Forms/Button";
 import { CategorySelectButton } from "../../components/Forms/CategorySelectButton";
@@ -8,13 +8,13 @@ import { TransactionTypeButton } from "../../components/Forms/TransactionTypeBut
 import { CategorySelect } from "../CategorySelect";
 import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
 
-interface FormData{
+interface FormData {
     name: string;
     amount: number;
 }
 
 export function Register() {
-    const { control, handleSubmit } = useForm();
+    const { control, handleSubmit } = useForm<FormData>();
 
     const [category, setCategory] = useState({
         key: "category",
@@ -35,9 +35,7 @@ export function Register() {
         setCategoryModalOpen(false);
     }
 
-    function handleRegister(form:FormData) {
-        
-    }
+    const handleRegister: SubmitHandler<FormData> = (values) => {};
 
     return (
         <Container>
@@ -47,7 +45,7 @@ export function Register() {
             <Form>
                 <Fields>
                     <InputForm placeholder="Nome" name="name" control={control}></InputForm>
-                    <InputForm placeholder="Preço" name="amout" control={control}></InputForm>
+                    <InputForm placeholder="Preço" name="amount" control={control}></InputForm>
                     <TransactionsType>
                         <TransactionTypeButton
                             title="Income"
