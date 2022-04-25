@@ -90,3 +90,5 @@ export const TransactionList = styled(
     showsVerticalScrollIndicator: false,
     contentContainerStyle: { paddingBottom: 10 },
 })``;
+
+export const LogoutButton = styled.TouchableOpacity``;
