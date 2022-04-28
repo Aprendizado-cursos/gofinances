@@ -4,13 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
 import * as yup from "yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import uuid from "react-native-uuid";
 import { Button } from "../../components/Forms/Button";
 import { CategorySelectButton } from "../../components/Forms/CategorySelectButton";
 import { InputForm } from "../../components/Forms/InputForm";
 import { TransactionTypeButton } from "../../components/Forms/TransactionTypeButton";
 import { CategorySelect } from "../CategorySelect";
 import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
+import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 
 interface FormData {
     name: string;
@@ -27,10 +28,13 @@ const formSchema = yup.object({
 });
 
 export function Register() {
+    const { navigate }: NavigationProp<ParamListBase> = useNavigation();
+
     const {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<FormData>({ resolver: yupResolver(formSchema) });
 
     const dataKey = "@gofinances:transactions";
@@ -56,13 +60,25 @@ export function Register() {
 
     const handleRegister: SubmitHandler<FormData> = async (values) => {
         try {
-            const formData = { ...values, transactionType, category: category.key };
+            const formData = {
+                ...values,
+                transactionType,
+                category: category.key,
+                date: new Date(),
+                id: String(uuid.v4()),
+            };
             const data = await AsyncStorage.getItem(dataKey);
-            const currentData = data? JSON.parse(data):[];
+            const currentData = data ? JSON.parse(data) : [];
 
-            const formattedData = [...currentData, formData]
+            const formattedData = [...currentData, formData];
+
+            reset();
+            setTransactionType("");
+            setCategory({ key: "category", name: "Categoria" });
 
             await AsyncStorage.setItem(dataKey, JSON.stringify(formattedData));
+
+            navigate("Listagem");
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível salvar.");
