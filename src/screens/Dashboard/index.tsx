@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { HighlightCard } from "../../components/HighlightCard";
 import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
+import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     Container,
     Header,
@@ -23,32 +25,40 @@ export interface DataListProps extends TransactionCardProps {
 }
 
 export function Dashboard() {
-    const data: DataListProps[] = [
-        {
-            id: "1",
-            title: "Desenvolvimento de site",
-            amount: "R$ 12.000,00",
-            category: { name: "Vendas", icon: "dollar-sign" },
-            date: "13/04/2022",
-            type: "positive",
-        },
-        {
-            id: "2",
-            title: "Pizza",
-            amount: "R$ 59,90",
-            category: { name: "Alimentação", icon: "coffee" },
-            date: "13/04/2022",
-            type: "negative",
-        },
-        {
-            id: "3",
-            title: "Aluguel apartamento",
-            amount: "R$ 1.200,00",
-            category: { name: "Casa", icon: "shopping-bag" },
-            date: "13/04/2022",
-            type: "negative",
-        },
-    ];
+    const [data, setData] = useState<DataListProps[]>([]);
+    const dataKey = "@gofinances:transactions";
+
+    async function loadTransaction() {
+        const response = await AsyncStorage.getItem(dataKey);
+        const transactions: DataListProps[] = response ? JSON.parse(response) : [];
+
+        const transactionsFormatted = transactions.map((transaction) => {
+            const amount = Number(transaction.amount).toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+            });
+
+            const date = Intl.DateTimeFormat("pt-BR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+            }).format(new Date(transaction.date));
+
+            return { ...transaction, amount, date };
+        });
+
+        setData(transactionsFormatted);
+    }
+
+    useEffect(() => {
+        loadTransaction();
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            loadTransaction();
+        }, [])
+    );
 
     return (
         <Container>

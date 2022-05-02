@@ -1,11 +1,11 @@
+import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
+import { NavigationContainer } from "@react-navigation/native";
+import AppLoading from "expo-app-loading";
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
 import React from "react";
 import { ThemeProvider } from "styled-components/native";
 import theme from "./global/styles/theme";
-import AppLoading from "expo-app-loading";
-import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from "@expo-google-fonts/poppins";
-import { Register } from "./screens/Register";
-import { CategorySelect } from "./screens/CategorySelect";
-import { NavigationContainer } from "@react-navigation/native";
 import { AppRoutes } from "./routes/app.routes";
 
 export default function App() {
