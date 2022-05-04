@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { HistoryCard } from "../../components/HistoryCard/Index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Container, Header, Title, Content, ChartContainer } from "./styles";
+import { Container, Header, Title, Content, ChartContainer, MonthSelect, MonthSelectButton, MonthSelectIcon, Month } from "./styles";
 import { categories } from "../../utils/categories";
 import { VictoryPie } from "victory-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "styled-components";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 interface TransactionData {
     name: string;
@@ -30,6 +31,8 @@ interface ResumeProps {}
 export function Resume({}: ResumeProps) {
     const [totalByCategories, setTotalByCategories] = React.useState<CategoryData[]>([]);
     const theme = useTheme();
+
+    const tabBarHeight = useBottomTabBarHeight();
 
     async function loadData() {
         const dataKey = "@gofinances:transactions";
@@ -77,7 +80,18 @@ export function Resume({}: ResumeProps) {
                 <Title>Resumo por categoria</Title>
             </Header>
 
-            <Content>
+            <Content
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: tabBarHeight }}>
+                <MonthSelect>
+                    <MonthSelectButton>
+                        <MonthSelectIcon name="chevron-left"></MonthSelectIcon>
+                    </MonthSelectButton>
+                    <Month>Maio</Month>
+                    <MonthSelectButton>
+                        <MonthSelectIcon name="chevron-right"></MonthSelectIcon>
+                    </MonthSelectButton>
+                </MonthSelect>
                 <ChartContainer>
                     <VictoryPie
                         data={totalByCategories}
