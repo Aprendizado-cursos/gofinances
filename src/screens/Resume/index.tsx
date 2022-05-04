@@ -1,13 +1,25 @@
 import React, { useEffect } from "react";
 import { HistoryCard } from "../../components/HistoryCard/Index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { Container, Header, Title, Content, ChartContainer, MonthSelect, MonthSelectButton, MonthSelectIcon, Month } from "./styles";
+import {
+    Container,
+    Header,
+    Title,
+    Content,
+    ChartContainer,
+    MonthSelect,
+    MonthSelectButton,
+    MonthSelectIcon,
+    Month,
+} from "./styles";
 import { categories } from "../../utils/categories";
 import { VictoryPie } from "victory-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "styled-components";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { addMonths } from "date-fns/esm";
+import { format, subMonths } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface TransactionData {
     name: string;
@@ -30,16 +42,30 @@ interface ResumeProps {}
 
 export function Resume({}: ResumeProps) {
     const [totalByCategories, setTotalByCategories] = React.useState<CategoryData[]>([]);
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
     const theme = useTheme();
 
     const tabBarHeight = useBottomTabBarHeight();
+
+    function handleDateChange(action: "next" | "prev") {
+        if (action === "next") {
+            setSelectedDate(addMonths(selectedDate, 1));
+        } else {
+            setSelectedDate(subMonths(selectedDate, 1));
+        }
+    }
 
     async function loadData() {
         const dataKey = "@gofinances:transactions";
         const response = await AsyncStorage.getItem(dataKey);
         const responseFormatted: TransactionData[] = response ? JSON.parse(response) : [];
 
-        const expenses = responseFormatted.filter((expense) => expense.type === "negative");
+        const expenses = responseFormatted.filter(
+            (expense) =>
+                expense.type === "negative" &&
+                new Date(expense.date).getMonth() === selectedDate.getMonth() &&
+                new Date(expense.date).getFullYear() === selectedDate.getFullYear()
+        );
 
         const expensesTotal = expenses.reduce((acc, curr) => acc + Number(curr.amount), 0);
 
@@ -72,7 +98,7 @@ export function Resume({}: ResumeProps) {
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [selectedDate]);
 
     return (
         <Container>
@@ -84,11 +110,11 @@ export function Resume({}: ResumeProps) {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: tabBarHeight }}>
                 <MonthSelect>
-                    <MonthSelectButton>
+                    <MonthSelectButton onPress={() => handleDateChange("prev")}>
                         <MonthSelectIcon name="chevron-left"></MonthSelectIcon>
                     </MonthSelectButton>
-                    <Month>Maio</Month>
-                    <MonthSelectButton>
+                    <Month>{format(selectedDate, "MMMM, yyyy", { locale: ptBR })}</Month>
+                    <MonthSelectButton onPress={() => handleDateChange("next")}>
                         <MonthSelectIcon name="chevron-right"></MonthSelectIcon>
                     </MonthSelectButton>
                 </MonthSelect>
