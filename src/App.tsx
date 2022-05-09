@@ -8,6 +8,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components/native";
 import theme from "./global/styles/theme";
 import { AppRoutes } from "./routes/app.routes";
+import { SignIn } from "./screens/SignIn";
 
 export default function App() {
     const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_500Medium, Poppins_700Bold });
@@ -18,10 +19,11 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <NavigationContainer>
+            <SignIn></SignIn>
+            {/* <NavigationContainer>
                 <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary}></StatusBar>
                 <AppRoutes></AppRoutes>
-            </NavigationContainer>
+            </NavigationContainer> */}
         </ThemeProvider>
     );
 }
