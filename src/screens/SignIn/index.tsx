@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import AppleSvg from "../../assets/apple.svg";
 import GoogleSvg from "../../assets/google.svg";
 import LogoSvg from "../../assets/logo.svg";
-
-import { Container, Header, TitleWrapper, Title, SignInTitle, Footer, FooterWrapper } from "./styles";
 import { SignInSocialButton } from "../../components/SignInSocialButton/index";
-import { AuthContext } from "../../AuthContext";
+import { useAuth } from "../../hooks/auth";
+import { Container, Footer, FooterWrapper, Header, SignInTitle, Title, TitleWrapper } from "./styles";
+
 
 interface SignInProps {}
 
 export function SignIn({}: SignInProps) {
-    const data = useContext(AuthContext)
+    const {user} = useAuth()
 
     return (
         <Container>

@@ -9,7 +9,7 @@ import { ThemeProvider } from "styled-components/native";
 import theme from "./global/styles/theme";
 import { AppRoutes } from "./routes/app.routes";
 import { SignIn } from "./screens/SignIn";
-import { AuthContext } from "./AuthContext";
+import { AuthProvider } from "./hooks/auth";
 
 export default function App() {
     const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_500Medium, Poppins_700Bold });
@@ -20,9 +20,9 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AuthContext.Provider value={[]}>
+            <AuthProvider>
                 <SignIn></SignIn>
-            </AuthContext.Provider>
+            </AuthProvider>
 
             {/* <NavigationContainer>
                 <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary}></StatusBar>
