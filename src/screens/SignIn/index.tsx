@@ -11,7 +11,7 @@ import { Container, Footer, FooterWrapper, Header, SignInTitle, Title, TitleWrap
 interface SignInProps {}
 
 export function SignIn({}: SignInProps) {
-    const { signInWithGoogle } = useAuth();
+    const { signInWithGoogle, signInWithApple } = useAuth();
 
     async function handleSignInWithGoogle() {
         try {
@@ -19,6 +19,15 @@ export function SignIn({}: SignInProps) {
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível conectar a conta google.");
+        }
+    }
+
+    async function handleSignInWithApple() {
+        try {
+            await signInWithApple();
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Não foi possível conectar a conta Apple.");
         }
     }
 
@@ -37,7 +46,7 @@ export function SignIn({}: SignInProps) {
             <Footer>
                 <FooterWrapper>
                     <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} onPress={handleSignInWithGoogle} />
-                    <SignInSocialButton title="Entrar com Apple" svg={AppleSvg} />
+                    <SignInSocialButton title="Entrar com Apple" svg={AppleSvg} onPress={handleSignInWithApple} />
                 </FooterWrapper>
             </Footer>
         </Container>
