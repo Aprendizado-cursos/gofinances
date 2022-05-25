@@ -5,13 +5,14 @@ import "intl/locale-data/jsonp/pt-BR";
 import React from "react";
 import { ThemeProvider } from "styled-components/native";
 import theme from "./global/styles/theme";
-import { AuthProvider } from "./hooks/auth";
+import { AuthProvider, useAuth } from "./hooks/auth";
 import { Routes } from "./routes";
 
 export default function App() {
+    const {userStorageLoading} = useAuth()
     const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_500Medium, Poppins_700Bold });
 
-    if (!fontsLoaded) {
+    if (!fontsLoaded || userStorageLoading) {
         return <AppLoading></AppLoading>;
     }
 

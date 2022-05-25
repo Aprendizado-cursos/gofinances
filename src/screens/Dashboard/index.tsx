@@ -22,6 +22,7 @@ import {
     UserWrapper,
 } from "./styles";
 import { useTheme } from "styled-components";
+import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends TransactionCardProps {
     id: string;
@@ -40,6 +41,7 @@ interface HighLightData {
 
 export function Dashboard() {
     const theme = useTheme();
+    const { signOut } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
@@ -146,7 +148,7 @@ export function Dashboard() {
                                     <UserName>Leonardo</UserName>
                                 </User>
                             </UserInfo>
-                            <LogoutButton onPress={() => {}}>
+                            <LogoutButton onPress={signOut}>
                                 <Icon name="power"></Icon>
                             </LogoutButton>
                         </UserWrapper>

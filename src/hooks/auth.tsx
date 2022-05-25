@@ -21,6 +21,8 @@ interface AuthContextData {
     user: User;
     signInWithGoogle: () => Promise<void>;
     signInWithApple: () => Promise<void>;
+    signOut: () => Promise<void>;
+    userStorageLoading: boolean;
 }
 
 interface AuthorizationResponse {
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
             const { params, type } = (await AuthSession.startAsync({ authUrl })) as AuthorizationResponse;
+
             if (type === "success") {
                 const response = await fetch(
                     `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
@@ -90,6 +93,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
+    async function signOut() {
+        setUser({} as User);
+        await AsyncStorage.removeItem(userStorageKey);
+    }
+
     useEffect(() => {
         async function loadUserStorageData() {
             const userStorage = await AsyncStorage.getItem(userStorageKey);
@@ -102,7 +110,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loadUserStorageData();
     }, []);
 
-    return <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ user, signOut, userStorageLoading, signInWithGoogle, signInWithApple }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {
