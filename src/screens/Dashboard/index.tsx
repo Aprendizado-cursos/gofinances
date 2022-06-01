@@ -50,7 +50,7 @@ export function Dashboard() {
         expenses: { amount: "0,00", lastTransaction: "" },
         total: { amount: "0,00", lastTransaction: "" },
     });
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
 
     function getLastTransactionData(collection: DataListProps[], type: "positive" | "negative") {
         const result = new Date(

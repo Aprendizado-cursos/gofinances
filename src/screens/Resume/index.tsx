@@ -23,6 +23,7 @@ import { ptBR } from "date-fns/locale";
 import { ActivityIndicator } from "react-native";
 import { LoadContainer } from "../Dashboard/styles";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface TransactionData {
     name: string;
@@ -47,6 +48,7 @@ export function Resume({}: ResumeProps) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [totalByCategories, setTotalByCategories] = React.useState<CategoryData[]>([]);
     const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const { user } = useAuth();
     const theme = useTheme();
 
     const tabBarHeight = useBottomTabBarHeight();
@@ -61,7 +63,7 @@ export function Resume({}: ResumeProps) {
 
     async function loadData() {
         setIsLoading(true);
-        const dataKey = "@gofinances:transactions";
+        const dataKey = `@gofinances:transactions_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey);
         const responseFormatted: TransactionData[] = response ? JSON.parse(response) : [];
 

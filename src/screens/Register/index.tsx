@@ -12,6 +12,7 @@ import { TransactionTypeButton } from "../../components/Forms/TransactionTypeBut
 import { CategorySelect } from "../CategorySelect";
 import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface FormData {
     name: string;
@@ -29,6 +30,7 @@ const formSchema = yup.object({
 
 export function Register() {
     const { navigate }: NavigationProp<ParamListBase> = useNavigation();
+    const { user } = useAuth();
 
     const {
         control,
@@ -37,7 +39,7 @@ export function Register() {
         reset,
     } = useForm<FormData>({ resolver: yupResolver(formSchema) });
 
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
 
     const [category, setCategory] = useState({
         key: "category",
