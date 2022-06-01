@@ -88,7 +88,6 @@ export function Register() {
     useEffect(() => {
         async function getTransactions() {
             const data = await AsyncStorage.getItem(dataKey);
-            console.log(JSON.parse(data!));
         }
         getTransactions();
     }, []);

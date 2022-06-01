@@ -23,7 +23,6 @@ export function SignIn({}: SignInProps) {
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível conectar a conta google.");
-        } finally {
             setIsLoading(false);
         }
     }
@@ -35,7 +34,6 @@ export function SignIn({}: SignInProps) {
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível conectar a conta Apple.");
-        } finally {
             setIsLoading(false);
         }
     }

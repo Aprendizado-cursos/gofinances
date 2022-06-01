@@ -41,7 +41,7 @@ interface HighLightData {
 
 export function Dashboard() {
     const theme = useTheme();
-    const { signOut } = useAuth();
+    const { signOut, user } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
@@ -142,10 +142,10 @@ export function Dashboard() {
                     <Header>
                         <UserWrapper>
                             <UserInfo>
-                                <Photo source={{ uri: "https://avatars.githubusercontent.com/u/39427966?v=4" }}></Photo>
+                                <Photo source={{ uri: user.photo }}></Photo>
                                 <User>
                                     <UserGreeting>Olá, </UserGreeting>
-                                    <UserName>Leonardo</UserName>
+                                    <UserName>{user.name}</UserName>
                                 </User>
                             </UserInfo>
                             <LogoutButton onPress={signOut}>
