@@ -3,9 +3,15 @@
     "name": "gofinances",
     "slug": "gofinances",
     "version": "1.0.0",
-    "scheme":"gofinances",
+    "scheme": "gofinances",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#FFFFF"
+    },
+    "icon": "./assets/icon.png",
+    "description": ""
   }
 }
